@@ -5,74 +5,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Easter Egg Hunt</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23ffcc80'/><circle cx='30' cy='40' r='5' fill='%23fff'/><circle cx='50' cy='35' r='4' fill='%23fff'/><circle cx='65' cy='45' r='3' fill='%23fff'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LY3GN7LWQ2"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LY3GN7LWQ2');
+        </script>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Comic Sans MS',  sans-serif;
+            font-size: 16px; /* Base font size */
+        }
+        
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
             background-color: #2d1b4d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 0 2vw;
+            touch-action: manipulation;
+        }
+        
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            max-height: 100vh;
+            max-width: 500px;
+            padding: 1vh 0;
+        }
+        
+        /* Header styles */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 1vh;
+            flex: 0 0 auto;
+        }
+        
+        .logo {
+            width: min(120px, 30vw);
+            height: auto;
+            margin-bottom: 1vh;
+        }
+        
+        .announcement {
+            color: #d4af37;
+            font-size: min(1.2rem, 4vw);
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            background-color: #9e73e4;
+            box-shadow: 0 0 15px rgba(255, 223, 0, 0.3);
+            animation: subtle-glow 2s ease-in-out infinite alternate;
+            border-radius: 15px;
+            padding: 8px;
+            height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 10px;
-            touch-action: manipulation;
+            font-family: 'Comic Sans MS',  sans-serif;
+            gap: 10px;
+            width: 100%;
         }
+        
+        @keyframes subtle-glow {
+            from { text-shadow: 0 0 10px rgba(255, 221, 0, 0.493); }
+            to { text-shadow: 0 0 20px rgba(255, 223, 0, 0.4); }
+        }
+        
         .game-container {
             text-align: center;
-            background-color: #664698;
-            padding: 15px;
+            background-color: #9e73e4;
+            padding: 10px;
             border-radius: 15px;
             box-shadow: rgba(255, 223, 0, 0.3) 0px 10px 30px;
             width: 100%;
-            max-width: 500px;
-            box-sizing: border-box;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
+        
         h1 {
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            margin: 0.5em 0;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
+            margin: 0.3em 0;
             color: #d4af37;
-
         }
+        
         #game-area {
             position: relative;
             width: 100%;
-            height: 0;
-            padding-bottom: 75%; /* 4:3 aspect ratio */
-            margin: 15px auto;
+            flex: 1;
+            margin: 5px auto;
             background-color: #e0f7fa;
             border: 3px dashed #2d1b4d;
             border-radius: 10px;
             overflow: hidden;
             touch-action: manipulation;
         }
+        
         .egg {
             position: absolute;
-            width: 12vw;
-            height: 14vw;
-            max-width: 50px;
-            max-height: 60px;
+            width: 40px;
+            height: 48px;
+            max-width: 40px;
+            max-height: 48px;
             background-size: contain;
             background-repeat: no-repeat;
             cursor: pointer;
-            transition: transform 0.3s;
             padding: 5px;
             margin: -5px;
             z-index: 1;
             touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+            -webkit-tap-highlight-color: transparent;
+            opacity: 0.6; /* Make eggs partially visible by default */
+            transition: transform 0.3s, opacity 0.5s;
         }
+        
         .egg:hover {
             transform: scale(1.1);
             z-index: 5;
         }
-        /* Egg crack animation styles */
+        
         .egg.open {
             transform: scale(1.2);
             z-index: 10;
             background-image: none !important;
-            pointer-events: none; /* Prevent further clicks */
+            pointer-events: none;
         }
+        
         .egg-shell {
             position: absolute;
             width: 100%;
@@ -81,22 +161,20 @@
             background-repeat: no-repeat;
             transition: all 0.5s ease-out;
         }
-        .egg-shell-top {
-            top: 0;
-            left: 0;
-        }
-        .egg-shell-bottom {
-            bottom: 0;
-            left: 0;
-        }
+        
+        .egg-shell-top { top: 0; left: 0; }
+        .egg-shell-bottom { bottom: 0; left: 0; }
+        
         .egg.open .egg-shell-top {
             transform: translateY(-20px) rotate(-20deg);
             opacity: 0.8;
         }
+        
         .egg.open .egg-shell-bottom {
             transform: translateY(20px) rotate(20deg);
             opacity: 0.8;
         }
+        
         .egg-content {
             position: absolute;
             width: 100%;
@@ -104,170 +182,229 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(16px, 8vw, 32px);
+            font-size: clamp(16px, 6vw, 24px);
             opacity: 0;
             transform: scale(0.5);
             transition: all 0.4s ease-out;
             transition-delay: 0.2s;
+            font-family: 'Comic Sans MS',  sans-serif;
         }
+        
         .egg.open .egg-content {
             opacity: 1;
             transform: scale(1.2);
         }
+        
         .reward {
             color: #5dba61;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(36, 35, 35, 0.8);
+            font-family: 'Comic Sans MS',  sans-serif;
         }
+        
         .penalty {
             color: #c62828;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(36, 35, 35, 0.8);
+            font-family: 'Comic Sans MS',  sans-serif;
         }
+        
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            flex: 0 0 auto;
+        }
+        
         #status {
-            font-size: clamp(1rem, 4vw, 1.2em);
-            margin: 10px 0;
-            min-height: 24px;
-            font-weight: bold;
-        }
-        #instruction {
-            color: #d2cfcf85;
-            font-weight: lighter;
-            animation: pulse 1.5s infinite;
             font-size: clamp(0.9rem, 3.5vw, 1.1rem);
             margin: 5px 0;
+            min-height: 20px;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', sans-serif;
         }
+        
+        #instruction {
+            color: #ffffffda;
+            font-weight: normal;
+            animation: pulse 1.5s infinite;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            margin: 2px 0;
+            font-family: 'Comic Sans MS',  sans-serif;
+        }
+        
         @keyframes pulse {
             0% { opacity: 0.7; }
             50% { opacity: 1; }
             100% { opacity: 0.7; }
         }
+        
         @keyframes pop {
             0% { transform: scale(1); }
             50% { transform: scale(1.3); }
             100% { transform: scale(1.2); }
         }
+        .bush {
+            position: absolute;
+    width: 60px;
+    height: 40px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40"><path d="M5,40 C5,25 10,10 15,5 C15,15 15,30 15,40 Z" fill="%2369aa64"/><path d="M15,40 C15,20 20,10 25,0 C25,15 25,25 25,40 Z" fill="%2381c27d"/><path d="M25,40 C25,25 30,15 30,5 C30,15 30,30 30,40 Z" fill="%2369aa64"/><path d="M30,40 C30,20 35,10 40,5 C40,15 40,30 40,40 Z" fill="%2381c27d"/><path d="M40,40 C40,25 45,10 50,0 C50,15 50,25 50,40 Z" fill="%2369aa64"/><path d="M50,40 C50,20 55,10 55,5 C55,15 55,30 55,40 Z" fill="%2381c27d"/></svg>');
+    pointer-events: none;
+    z-index: 2;
+}
+
+        .egg.open, .egg:hover {
+            opacity: 1;
+        }
         .game-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 8px 0;
-            font-weight:normal;
-            color:gainsboro;
-            font-size: clamp(1rem, 4vw, 1.2em);
+            margin: 5px 0;
+            font-weight: normal;
+            color: gainsboro;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            font-family: 'Comic Sans MS', sans-serif;
         }
+        
+        #reward-counter {
+            color: gold;
+            font-weight: bold;
+            margin-top: 3px;
+            font-size: clamp(1rem, 3.5vw, 1.2rem);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
         .animated-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-}
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
 
-.bubble {
-    position: absolute;
-    bottom: -50px;
-    width: 20px;
-    height: 20px;
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    animation: floatBubble 10s linear infinite;
-}
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: floatBubble 10s linear infinite;
+        }
 
-.bubble:nth-child(1) {
-    left: 10%;
-    animation-duration: 8s;
-    animation-delay: 0s;
-}
-.bubble:nth-child(2) {
-    left: 25%;
-    animation-duration: 9s;
-    animation-delay: 2s;
-}
-.bubble:nth-child(3) {
-    left: 45%;
-    animation-duration: 7s;
-    animation-delay: 1s;
-}
-.bubble:nth-child(4) {
-    left: 65%;
-    animation-duration: 6s;
-    animation-delay: 3s;
-}
-.bubble:nth-child(5) {
-    left: 85%;
-    animation-duration: 10s;
-    animation-delay: 0.5s;
-}
+        .bubble:nth-child(1) {
+            left: 10%;
+            animation-duration: 8s;
+            animation-delay: 0s;
+        }
+        .bubble:nth-child(2) {
+            left: 25%;
+            animation-duration: 9s;
+            animation-delay: 2s;
+        }
+        .bubble:nth-child(3) {
+            left: 45%;
+            animation-duration: 7s;
+            animation-delay: 1s;
+        }
+        .bubble:nth-child(4) {
+            left: 65%;
+            animation-duration: 6s;
+            animation-delay: 3s;
+        }
+        .bubble:nth-child(5) {
+            left: 85%;
+            animation-duration: 10s;
+            animation-delay: 0.5s;
+        }
 
-@keyframes floatBubble {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translateY(-120vh) scale(1.3);
-        opacity: 0;
-    }
-}
-
-
-        /* Mobile-specific adjustments */
-        @media (max-width: 480px) {
-            .game-container {
-                padding: 10px;
+        @keyframes floatBubble {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.6;
             }
-            #game-area {
-                padding-bottom: 100%; /* More square aspect ratio for mobile */
+            100% {
+                transform: translateY(-120vh) scale(1.3);
+                opacity: 0;
             }
+        }
+
+        /* Height-based media queries */
+        @media (max-height: 500px) {
+            .logo { width: min(100px, 25vw); }
+            .announcement { 
+                height: 40px;
+                font-size: min(1rem, 3.5vw);
+                padding: 5px;
+            }
+            h1 { margin: 0.2em 0; font-size: clamp(1rem, 4vw, 1.5rem); }
+            #status, #instruction { margin: 2px 0; }
+            .game-container { padding: 5px; }
+        }
+        
+        /* Width-based media queries */
+        @media (max-width: 350px) {
             .egg {
-                width: 15vw;
-                height: 18vw;
+                width: 35px;
+                height: 42px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <h1>Easter Egg Hunt!</h1>
-        <div class="game-info">
-            <div id="timer">Time: 20s</div>
-            <div id="attempts">Attempts left: 3</div>
+    <div class="main-container">
+        <!-- Header section with logo and announcement -->
+        <div class="header">
+            <img src="./lilaq logo.png" alt="LiLaQ.AI Logo" class="logo">
+            <div class="announcement">✈️ LiLaQ.AI Placement Assistance Drives are Now Live! 🎯</div>
         </div>
         
-        <div id="status">Find rewards!</div>
-        <div id="instruction">Click on falling eggs before they disappear!</div>
-        
-        <div id="game-area"></div>
-        <!-- Audio elements -->
-        <audio id="success-sound" preload="auto">
-            <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="failure-sound" preload="auto">
-            <source src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="background-music" loop preload="auto" autoplay>
-            <source src="https://assets.mixkit.co/active_storage/sfx/1818/1818-preview.mp3" type="audio/mpeg">
-        </audio>
-        <div class="animated-background">
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-          </div>
-          
+        <div class="game-container">
+            <h1>Easter Egg Hunt!</h1>
+            <div class="game-info">
+                <div id="timer">Time: 20s</div>
+                <div id="attempts">Attempts left: 3</div>
+            </div>
+            
+            <div class="info-section">
+                <div id="status">Find rewards!</div>
+                <div id="instruction">Click on eggs to discover surprises!</div>
+                <div id="reward-counter"></div>
+            </div>
+            
+            <div id="game-area"></div>
+            <!-- Audio elements -->
+            <audio id="success-sound" preload="auto">
+                <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="failure-sound" preload="auto">
+                <source src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="background-music" loop preload="auto" autoplay>
+                <source src="https://assets.mixkit.co/active_storage/sfx/1818/1818-preview.mp3" type="audio/mpeg">
+            </audio>
+            <div class="animated-background">
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+            </div>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            trackEvent('Game', 'Start', 'Easter Egg Hunt');
             const gameArea = document.getElementById('game-area');
             const statusDisplay = document.getElementById('status');
             const timerDisplay = document.getElementById('timer');
             const attemptsDisplay = document.getElementById('attempts');
+            const rewardCounterDisplay = document.getElementById('reward-counter');
             const redirectUrl = 'https://www.lilaq.ai/'; 
             const backgroundMusic = document.getElementById('background-music');
             
@@ -275,22 +412,40 @@
             let gameTimer;
             let countdownTimer;
             let eggSpawnTimer;
-            let consecutiveSnakes = 0;
+            let consecutiveZeros = 0;
             let remainingAttempts = 3;
-            let timeLeft = 20;
+            let timeLeft = 15;
             let totalEggsClicked = 0;
             let activeEggs = [];
-            let clickInProgress = false; // Add flag to prevent click spamming
+            let clickInProgress = false;
+            let rewardCount = 0;
+
+            // Google Analytics event tracking function
+                function trackEvent(eventCategory, eventAction, eventLabel = null, eventValue = null) {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', eventAction, {
+                            'event_category': eventCategory,
+                            'event_label': eventLabel,
+                            'value': eventValue
+                        });
+                    }
+                }
             
-            // Function to autoplay background music
+            function updateRewardCounter() {
+                if (rewardCount > 0) {
+                    rewardCounterDisplay.textContent = '$'.repeat(rewardCount);
+                    rewardCounterDisplay.style.display = 'block';
+                } else {
+                    rewardCounterDisplay.style.display = 'none';
+                }
+            }
+            
             function setupBackgroundMusic() {
-                backgroundMusic.volume = 0.3; // Set volume to 30%
+                backgroundMusic.volume = 0.3;
                 
-                // Try to play automatically
                 backgroundMusic.play().catch(error => {
                     console.log("Autoplay prevented by browser:", error);
                     
-                    // Add a one-time event listener for user interaction to start music
                     document.addEventListener('click', function startAudioOnFirstInteraction() {
                         backgroundMusic.play().catch(e => console.log("Still can't play audio:", e));
                         document.removeEventListener('click', startAudioOnFirstInteraction);
@@ -298,14 +453,11 @@
                 });
             }
             
-            // Set up audio on load
             setupBackgroundMusic();
             
-            // Initialize audio sounds
             const successSound = document.getElementById('success-sound');
             const failureSound = document.getElementById('failure-sound');
             
-            // Load the audio files
             if (successSound) successSound.load();
             if (failureSound) failureSound.load();
             
@@ -319,271 +471,339 @@
             function updateAttempts() {
                 attemptsDisplay.textContent = `Attempts left: ${remainingAttempts}`;
             }
-            
-            function spawnEgg() {
-                if (!gameActive) return;
-                
-                const egg = document.createElement('div');
-                egg.className = 'egg';
-                egg.dataset.clicked = 'false'; // Add a clicked state tracker
-                
-                // Calculate game area dimensions
-                const gameAreaWidth = gameArea.offsetWidth;
-                const gameAreaHeight = gameArea.offsetHeight;
-                
-                // Select a random egg color
-                const randomColorIndex = Math.floor(Math.random() * eggColors.length);
-                const selectedColor = eggColors[randomColorIndex];
-                
-                // Apply the color to the egg
-                egg.style.backgroundImage = selectedColor.wholeSvg();
-                egg.dataset.colorName = selectedColor.name;
-                egg.dataset.colorFill = selectedColor.fill;
-                
-                // Get egg dimensions
-                egg.style.opacity = '0'; // Hide the egg initially
-                gameArea.appendChild(egg); // Add to DOM temporarily to get dimensions
-                const eggWidth = egg.offsetWidth;
-                const eggHeight = egg.offsetHeight;
-                
-                // Start at random horizontal position at the top
-                const maxX = gameAreaWidth - eggWidth;
-                const randomX = Math.floor(Math.random() * maxX);
-                
-                egg.style.left = `${randomX}px`;
-                egg.style.top = `-${eggHeight}px`; // Start above the game area
-                egg.style.opacity = '1'; // Make the egg visible
-                
-                // 70% chance reward, 30% penalty
-                const isReward = Math.random() < 0.7;
-                const outcome = isReward ? 
-                    { type: 'reward', emoji: '💰', message: 'Reward!' } : 
-                    { type: 'penalty', emoji: '🐍', message: 'Oh no! Try again.' };
-                
-                egg.dataset.type = outcome.type;
-                egg.dataset.emoji = outcome.emoji;
-                egg.dataset.message = outcome.message;
-                
-                // Handle both touch and click events with debouncing
-                egg.addEventListener('click', function(event) {
-                    if (egg.dataset.clicked === 'true') return; // Prevent clicking already clicked eggs
-                    handleEggClick(egg);
-                    event.stopPropagation();
-                });
-                
-                // Add touch event for mobile devices
-                egg.addEventListener('touchend', function(event) {
-                    if (egg.dataset.clicked === 'true') return; // Prevent touching already clicked eggs
-                    handleEggClick(egg);
-                    event.preventDefault(); // Prevent mouse events from firing
-                    event.stopPropagation();
-                }, { passive: false });
-                
-                activeEggs.push({
-                    element: egg,
-                    speed: 0.5 + Math.random() * 1, 
-                    position: -eggHeight
-                });
-            }
 
-            // Play sound function
+            function checkOverlap(x, y, width, height, minDistance = 70) {
+    for (const eggObj of activeEggs) {
+        const existingX = parseInt(eggObj.element.style.left);
+        const existingY = parseInt(eggObj.element.style.top);
+        
+        // Calculate distance between centers of eggs
+        const distance = Math.sqrt(
+            Math.pow(x + width/2 - (existingX + width/2), 2) + 
+            Math.pow(y + height/2 - (existingY + height/2), 2)
+        );
+        
+        // If distance is less than minimum allowed, there's overlap
+        if (distance < minDistance) {
+            return true; // Overlap detected
+        }
+    }
+    return false; // No overlap
+}
+            
+function spawnEgg() {
+    if (!gameActive) return;
+    
+    // If we have too many attempts to place an egg without success, stop trying
+    let attempts = 0;
+    const maxAttempts = 20;
+    
+    const egg = document.createElement('div');
+    egg.className = 'egg';
+    egg.dataset.clicked = 'false';
+    
+    const gameAreaWidth = gameArea.offsetWidth;
+    const gameAreaHeight = gameArea.offsetHeight;
+    
+    const randomColorIndex = Math.floor(Math.random() * eggColors.length);
+    const selectedColor = eggColors[randomColorIndex];
+    
+    egg.style.backgroundImage = selectedColor.wholeSvg();
+    egg.dataset.colorName = selectedColor.name;
+    egg.dataset.colorFill = selectedColor.fill;
+    
+    egg.style.opacity = '0';
+    gameArea.appendChild(egg);
+    const eggWidth = egg.offsetWidth;
+    const eggHeight = egg.offsetHeight;
+    
+    // Try to find a position without overlap
+    let randomX, randomY;
+    let hasOverlap = true;
+    
+    while (hasOverlap && attempts < maxAttempts) {
+        const maxX = gameAreaWidth - eggWidth - 10;
+        const maxY = gameAreaHeight - eggHeight - 10;
+        randomX = Math.floor(Math.random() * maxX) + 5;
+        randomY = Math.floor(Math.random() * maxY) + 5;
+        
+        hasOverlap = checkOverlap(randomX, randomY, eggWidth, eggHeight, 80);
+        attempts++;
+    }
+    
+    // If we couldn't find a non-overlapping position after max attempts, remove the egg
+    if (attempts >= maxAttempts) {
+        egg.remove();
+        return;
+    }
+    
+    egg.style.left = `${randomX}px`;
+    egg.style.top = `${randomY}px`;
+    
+    // Create and position bush
+    const bush = document.createElement('div');
+    bush.className = 'bush';
+    bush.id = `bush-${Date.now()}-${randomX}-${randomY}`;
+    
+    // Position bush more downward to show more of the egg
+    bush.style.left = `${randomX - 10}px`;
+    bush.style.top = `${randomY + 15}px`;
+    
+    gameArea.appendChild(bush);
+    
+    // Set the egg's z-index to be below the bush
+    egg.style.zIndex = '1';
+    egg.dataset.bushId = bush.id;
+    
+    egg.style.transition = 'opacity 0.5s';
+    egg.style.opacity = '0.7'; // Make egg partially visible
+    
+    const isReward = Math.random() < 0.7;
+    const outcome = isReward ? 
+        { type: 'reward', emoji: '$', message: 'Reward!' } : 
+        { type: 'penalty', emoji: '0', message: 'Try again.' };
+    
+    egg.dataset.type = outcome.type;
+    egg.dataset.emoji = outcome.emoji;
+    egg.dataset.message = outcome.message;
+    
+    egg.addEventListener('click', function(event) {
+        handleEggInteraction(egg);
+        event.stopPropagation();
+    });
+    
+    egg.addEventListener('touchend', function(event) {
+        handleEggInteraction(egg);
+        event.preventDefault();
+        event.stopPropagation();
+    }, { passive: false });
+    
+    activeEggs.push({
+        element: egg,
+        bush: bush,
+        position: { x: randomX, y: randomY }
+    });
+}
+
+
             function playSound(soundId) {
                 const sound = document.getElementById(soundId);
                 
                 if (sound) {
-                    // Reset the audio to the beginning
                     sound.currentTime = 0;
-                    
-                    // Try to play the sound with error handling
                     sound.play().catch(error => {
                         console.log(`Error playing sound: ${error.message}`);
                     });
                 }
             }
             
-            function handleEggClick(egg) {
-                // Return early if the game isn't active, egg is already opened, or a click is already being processed
-                if (!gameActive || egg.classList.contains('open') || clickInProgress || egg.dataset.clicked === 'true') return;
+            function handleEggInteraction(egg) {
+                if (!gameActive || egg.dataset.clicked === 'true') return;
                 
-                // Set clicked state immediately to prevent double-clicks
                 egg.dataset.clicked = 'true';
-                clickInProgress = true;
                 
-                // Get the egg's color
-                const colorName = egg.dataset.colorName;
-                const selectedColor = eggColors.find(color => color.name === colorName);
-                
-                // Pause the egg movement when clicked
-                const eggObj = activeEggs.find(e => e.element === egg);
-                if (eggObj) {
-                    eggObj.speed = 0;
-                }
-                
-                // Create egg shells for cracking animation
-                const shellTop = document.createElement('div');
-                shellTop.className = 'egg-shell egg-shell-top';
-                shellTop.style.backgroundImage = selectedColor.shellTop();
-                
-                const shellBottom = document.createElement('div');
-                shellBottom.className = 'egg-shell egg-shell-bottom';
-                shellBottom.style.backgroundImage = selectedColor.shellBottom();
-                
-                // Create content that will pop out
-                const content = document.createElement('div');
-                content.className = `egg-content ${egg.dataset.type}`;
-                content.textContent = egg.dataset.emoji;
-                content.style.animation = 'pop 0.5s ease-out forwards';
-                content.style.animationDelay = '0.2s';
-                
-                // Add all parts to the egg
-                egg.appendChild(shellTop);
-                egg.appendChild(shellBottom);
-                egg.appendChild(content);
-                egg.classList.add('open');
-                
-                // Process outcome
-                if (egg.dataset.type === 'reward') {
-                    playSound('success-sound');
-                    consecutiveSnakes = 0; // Reset snake counter
-                    statusDisplay.textContent = egg.dataset.message;
-                    statusDisplay.className = "reward";
-                } 
-                else if (egg.dataset.type === 'penalty') {
-                    playSound('failure-sound');
-                    consecutiveSnakes++;
-                    statusDisplay.textContent = egg.dataset.message;
-                    statusDisplay.className = "penalty";
-                    
-                    if (consecutiveSnakes >= 3) {
-                        // Show the current attempt result before ending the game
-                        setTimeout(() => {
-                            endGame(false);
-                        }, 1000);
-                        return;
-                    }
-                }
-                
-                // Count this attempt
-                remainingAttempts--;
-                totalEggsClicked++;
-                updateAttempts();
-                
-                // Check if all attempts are used
-                if (totalEggsClicked >= 3) {
-                    // Show the final result, then display success message after a delay
-                    setTimeout(() => {
-                        statusDisplay.textContent = "Hurray!! You've won!";
-                        statusDisplay.className = "reward";
-                        
-                        // Redirect after showing success message
-                        setTimeout(() => {
-                            window.location.href = redirectUrl;
-                        }, 500);
-                    }, 100);
-                    
-                    // Stop spawning eggs
-                    clearInterval(eggSpawnTimer);
-                    return;
-                }
-                
-                // Remove egg from active eggs array and DOM after animation
-                setTimeout(() => {
-                    activeEggs = activeEggs.filter(activeEgg => activeEgg.element !== egg);
-                    egg.style.transition = 'all 0.5s ease-out';
-                    egg.style.opacity = '0';
-                    egg.style.transform = 'scale(0.8)';
-                    
-                    setTimeout(() => {
-                        egg.remove();
-                        // Reset click processing flag
-                        clickInProgress = false;
-                    }, 500);
-                }, 1500);
-            }
-            
-            function updateEggs() {
-                const gameAreaHeight = gameArea.offsetHeight;
-                
-                for (let i = activeEggs.length - 1; i >= 0; i--) {
-                    const eggObj = activeEggs[i];
-                    eggObj.position += eggObj.speed;
-                    eggObj.element.style.top = `${eggObj.position}px`;
-                    
-                    // Remove eggs that fall out of view
-                    if (eggObj.position > gameAreaHeight) {
-                        eggObj.element.remove();
-                        activeEggs.splice(i, 1);
-                    }
-                }
-                
-                // Request next animation frame
-                if (gameActive) {
-                    requestAnimationFrame(updateEggs);
-                }
-            }
-            
-            function endGame(isSuccess) {
-                gameActive = false;
-                clearInterval(gameTimer);
-                clearInterval(countdownTimer);
-                clearInterval(eggSpawnTimer);
-                
-                // Stop the background music when game ends
-                if (backgroundMusic) {
-                    backgroundMusic.pause();
-                }
-                
-                if (isSuccess) {
-                    playSound('success-sound');
-                    statusDisplay.textContent = "Hurray!! You've won!";
-                    statusDisplay.className = "reward";
+                if (!clickInProgress) {
+                    handleEggClick(egg);
                 } else {
-                    playSound('failure-sound');
-                    statusDisplay.textContent = "Better luck next time!";
-                    statusDisplay.className = "penalty";
+                    setTimeout(() => {
+                        handleEggClick(egg);
+                    }, 50);
                 }
-                
-                // Redirect after showing the final message
-                setTimeout(() => {
-                    window.location.href = redirectUrl;
-                }, 1500);
             }
             
-            // Start countdown timer
+            function handleEggClick(egg) {
+                trackEvent('Game', 'Egg Click', egg.dataset.type, rewardCount);
+    clickInProgress = true;
+    
+    // Make egg fully visible when clicked
+    egg.style.opacity = '1';
+    egg.style.zIndex = '3';
+    
+    // Find associated bush
+    const bushId = egg.dataset.bushId;
+    const bush = document.getElementById(bushId);
+    
+    // Move bush aside with animation
+    if (bush) {
+        bush.style.transition = 'transform 0.5s ease-out';
+        bush.style.transform = 'translateX(-20px)';
+    }
+    
+    const colorName = egg.dataset.colorName;
+    const selectedColor = eggColors.find(color => color.name === colorName);
+    
+    const shellTop = document.createElement('div');
+    shellTop.className = 'egg-shell egg-shell-top';
+    shellTop.style.backgroundImage = selectedColor.shellTop();
+    
+    const shellBottom = document.createElement('div');
+    shellBottom.className = 'egg-shell egg-shell-bottom';
+    shellBottom.style.backgroundImage = selectedColor.shellBottom();
+    
+    const content = document.createElement('div');
+    content.className = `egg-content ${egg.dataset.type}`;
+    
+    if (egg.dataset.type === 'reward') {
+        playSound('success-sound');
+        consecutiveZeros = 0;
+        rewardCount++;
+        
+        content.textContent = '$'.repeat(rewardCount);
+        
+        statusDisplay.textContent = `${egg.dataset.message}!`;
+        statusDisplay.className = "reward";
+    }
+    else if (egg.dataset.type === 'penalty') {
+        playSound('failure-sound');
+        consecutiveZeros++;
+        content.textContent = egg.dataset.emoji;
+        statusDisplay.textContent = egg.dataset.message;
+        statusDisplay.className = "penalty";
+        
+        if (consecutiveZeros >= 3) {
+            setTimeout(() => {
+                endGame(false);
+            }, 1000);
+            return;
+        }
+    }
+    
+    content.style.animation = 'pop 0.5s ease-out forwards';
+    content.style.animationDelay = '0.2s';
+    
+    egg.appendChild(shellTop);
+    egg.appendChild(shellBottom);
+    egg.appendChild(content);
+    egg.classList.add('open');
+    
+    remainingAttempts--;
+    totalEggsClicked++;
+    updateAttempts();
+    
+    if (totalEggsClicked >= 3) {
+        setTimeout(() => {
+            statusDisplay.textContent = "Hurray!! You've won!";
+            statusDisplay.className = "reward";
+            
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 500);
+        }, 100);
+        
+        clearInterval(eggSpawnTimer);
+        return;
+    }
+    
+    setTimeout(() => {
+        activeEggs = activeEggs.filter(activeEgg => activeEgg.element !== egg);
+        egg.style.transition = 'all 0.5s ease-out';
+        egg.style.opacity = '0';
+        egg.style.transform = 'scale(0.8)';
+        
+        // Also remove the bush
+        if (bush) {
+            bush.style.opacity = '0';
+            setTimeout(() => {
+                bush.remove();
+            }, 500);
+        }
+        
+        setTimeout(() => {
+            egg.remove();
+            clickInProgress = false;
+        }, 500);
+    }, 800);
+    
+    setTimeout(() => {
+        clickInProgress = false;
+    }, 1000);
+}
+            
+function endGame(isSuccess) {
+    gameActive = false;
+    clearInterval(gameTimer);
+    clearInterval(countdownTimer);
+    clearInterval(eggSpawnTimer);
+    
+    clickInProgress = false;
+    
+    // Remove all eggs and bushes
+    activeEggs.forEach(eggObj => {
+        eggObj.element.remove();
+        if (eggObj.bush) {
+            eggObj.bush.remove();
+        }
+    });
+    
+    if (backgroundMusic) {
+        backgroundMusic.pause();
+    }
+    
+    if (isSuccess) {
+        playSound('success-sound');
+        statusDisplay.textContent = "Hurray!! You've won!";
+        statusDisplay.className = "reward";
+    } else {
+        playSound('failure-sound');
+        statusDisplay.textContent = "Better luck next time!";
+        statusDisplay.className = "penalty";
+    }
+
+    if (isSuccess) {
+    trackEvent('Game', 'Complete', 'Win', rewardCount);
+} else {
+    trackEvent('Game', 'Complete', 'Lose', rewardCount);
+}
+
+trackEvent('Navigation', 'Redirect', redirectUrl);
+
+    
+    setTimeout(() => {
+        window.location.href = redirectUrl;
+    }, 1500);
+}
+            
             countdownTimer = setInterval(() => {
                 timeLeft--;
                 updateTimer();
             }, 1000);
             
-            // Start game timer (20 seconds)
             gameTimer = setTimeout(() => {
                 endGame(true);
             }, 20000);
             
-            // Spawn eggs regularly
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    spawnEgg();
+                }, i * 250);
+            }
+            
             eggSpawnTimer = setInterval(() => {
-                if (activeEggs.length < 5) { // Limit max eggs on screen
+                if (activeEggs.length < 5 && gameActive) {
                     spawnEgg();
                 }
             }, 1000);
             
-            // Start egg animation
-            requestAnimationFrame(updateEggs);
-            
-            // Handle window resize
             window.addEventListener('resize', function() {
-                // Update positions of all active eggs when screen size changes
+                const gameAreaWidth = gameArea.offsetWidth;
+                const gameAreaHeight = gameArea.offsetHeight;
+                
                 activeEggs.forEach(eggObj => {
                     const egg = eggObj.element;
-                    const currentLeft = parseInt(egg.style.left);
-                    const maxX = gameArea.offsetWidth - parseInt(window.getComputedStyle(egg).width);
+                    const eggWidth = parseInt(window.getComputedStyle(egg).width);
+                    const eggHeight = parseInt(window.getComputedStyle(egg).height);
                     
-                    // Adjust left position if needed to keep egg in bounds
+                    const maxX = gameAreaWidth - eggWidth;
+                    const maxY = gameAreaHeight - eggHeight;
+                    
+                    const currentLeft = parseInt(egg.style.left);
+                    const currentTop = parseInt(egg.style.top);
+                    
                     egg.style.left = `${Math.min(currentLeft, maxX)}px`;
+                    egg.style.top = `${Math.min(currentTop, maxY)}px`;
                 });
             });
             
-            // Define egg colors with their SVG definitions
             const eggColors = [
                 {
                     name: 'yellow',
@@ -595,8 +815,8 @@
                         return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30"><path d="M25,0 C40,0 45,2 45,5 C45,15 35,25 25,25 C15,25 5,15 5,5 C5,2 10,0 25,0 Z" fill="${this.fill}"/></svg>')`;
                     },
                     wholeSvg: function() {
-                        return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,5 C35,5 45,15 45,25 C45,35 35,55 25,55 C15,55 5,35 5,25 C5,15 15,5 25,5 Z" fill="${this.fill}"/><circle cx="15" cy="20" r="3" fill="%23ffffff"/><circle cx="30" cy="15" r="2" fill="%23ffffff"/><circle cx="35" cy="25" r="2.5" fill="%23ffffff"/></svg>')`;
-                    }
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,55 C15,55 5,45 5,35 C5,25 15,5 25,5 C35,5 45,25 45,35 C45,45 35,55 25,55 Z" fill="${this.fill}"/><circle cx="35" cy="40" r="3" fill="%23ffffff"/><circle cx="20" cy="45" r="2" fill="%23ffffff"/><circle cx="15" cy="35" r="2.5" fill="%23ffffff"/></svg>')`;
+}
                 },
                 {
                     name: 'blue',
@@ -608,8 +828,8 @@
                         return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30"><path d="M25,0 C40,0 45,2 45,5 C45,15 35,25 25,25 C15,25 5,15 5,5 C5,2 10,0 25,0 Z" fill="${this.fill}"/></svg>')`;
                     },
                     wholeSvg: function() {
-                        return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,5 C35,5 45,15 45,25 C45,35 35,55 25,55 C15,55 5,35 5,25 C5,15 15,5 25,5 Z" fill="${this.fill}"/><circle cx="15" cy="20" r="3" fill="%23ffffff"/><circle cx="30" cy="15" r="2" fill="%23ffffff"/><circle cx="35" cy="25" r="2.5" fill="%23ffffff"/></svg>')`;
-                    }
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,55 C15,55 5,45 5,35 C5,25 15,5 25,5 C35,5 45,25 45,35 C45,45 35,55 25,55 Z" fill="${this.fill}"/><circle cx="35" cy="40" r="3" fill="%23ffffff"/><circle cx="20" cy="45" r="2" fill="%23ffffff"/><circle cx="15" cy="35" r="2.5" fill="%23ffffff"/></svg>')`;
+}
                 },
                 {
                     name: 'pink',
@@ -621,8 +841,8 @@
                         return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30"><path d="M25,0 C40,0 45,2 45,5 C45,15 35,25 25,25 C15,25 5,15 5,5 C5,2 10,0 25,0 Z" fill="${this.fill}"/></svg>')`;
                     },
                     wholeSvg: function() {
-                        return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,5 C35,5 45,15 45,25 C45,35 35,55 25,55 C15,55 5,35 5,25 C5,15 15,5 25,5 Z" fill="${this.fill}"/><circle cx="15" cy="20" r="3" fill="%23ffffff"/><circle cx="30" cy="15" r="2" fill="%23ffffff"/><circle cx="35" cy="25" r="2.5" fill="%23ffffff"/></svg>')`;
-                    }
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,55 C15,55 5,45 5,35 C5,25 15,5 25,5 C35,5 45,25 45,35 C45,45 35,55 25,55 Z" fill="${this.fill}"/><circle cx="35" cy="40" r="3" fill="%23ffffff"/><circle cx="20" cy="45" r="2" fill="%23ffffff"/><circle cx="15" cy="35" r="2.5" fill="%23ffffff"/></svg>')`;
+}
                 },
                 {
                     name: 'green',
@@ -634,8 +854,8 @@
                         return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30"><path d="M25,0 C40,0 45,2 45,5 C45,15 35,25 25,25 C15,25 5,15 5,5 C5,2 10,0 25,0 Z" fill="${this.fill}"/></svg>')`;
                     },
                     wholeSvg: function() {
-                        return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,5 C35,5 45,15 45,25 C45,35 35,55 25,55 C15,55 5,35 5,25 C5,15 15,5 25,5 Z" fill="${this.fill}"/><circle cx="15" cy="20" r="3" fill="%23ffffff"/><circle cx="30" cy="15" r="2" fill="%23ffffff"/><circle cx="35" cy="25" r="2.5" fill="%23ffffff"/></svg>')`;
-                    }
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,55 C15,55 5,45 5,35 C5,25 15,5 25,5 C35,5 45,25 45,35 C45,45 35,55 25,55 Z" fill="${this.fill}"/><circle cx="35" cy="40" r="3" fill="%23ffffff"/><circle cx="20" cy="45" r="2" fill="%23ffffff"/><circle cx="15" cy="35" r="2.5" fill="%23ffffff"/></svg>')`;
+}
                 },
                 {
                     name: 'purple',
@@ -647,8 +867,8 @@
                         return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30"><path d="M25,0 C40,0 45,2 45,5 C45,15 35,25 25,25 C15,25 5,15 5,5 C5,2 10,0 25,0 Z" fill="${this.fill}"/></svg>')`;
                     },
                     wholeSvg: function() {
-                        return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,5 C35,5 45,15 45,25 C45,35 35,55 25,55 C15,55 5,35 5,25 C5,15 15,5 25,5 Z" fill="${this.fill}"/><circle cx="15" cy="20" r="3" fill="%23ffffff"/><circle cx="30" cy="15" r="2" fill="%23ffffff"/><circle cx="35" cy="25" r="2.5" fill="%23ffffff"/></svg>')`;
-                    }
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"><path d="M25,55 C15,55 5,45 5,35 C5,25 15,5 25,5 C35,5 45,25 45,35 C45,45 35,55 25,55 Z" fill="${this.fill}"/><circle cx="35" cy="40" r="3" fill="%23ffffff"/><circle cx="20" cy="45" r="2" fill="%23ffffff"/><circle cx="15" cy="35" r="2.5" fill="%23ffffff"/></svg>')`;
+}
                 }
             ];
         });
